@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup KUBECONFIG
+        uses: vbem/kubeconfig4sa@v1
+        with:
+          server:     ${{ secrets.PROD_K8S_ADDRESS }}
+          ca-base64:  ${{ secrets.PROD_K8S_CA_BASE64 }}
+          token:      ${{ secrets.PROD_K8S_SA_TOKEN }}
+          namespace:  default
+
+      - name: Deploy App
+        run: helm upgrade --install app1 ./
