@@ -2,9 +2,9 @@ name: Deploy
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "dev" ]
 
   workflow_dispatch:
 
@@ -19,9 +19,9 @@ jobs:
       - name: Setup KUBECONFIG
         uses: vbem/kubeconfig4sa@v1
         with:
-          server:     ${{ secrets.PROD_K8S_ADDRESS }}
-          ca-base64:  ${{ secrets.PROD_K8S_CA_BASE64 }}
-          token:      ${{ secrets.PROD_K8S_SA_TOKEN }}
+          server:     ${{ secrets.DEV_K8S_ADDRESS }}
+          ca-base64:  ${{ secrets.DEV_K8S_CA_BASE64 }}
+          token:      ${{ secrets.DEV_K8S_SA_TOKEN }}
           namespace:  default
 
       - name: Deploy App
